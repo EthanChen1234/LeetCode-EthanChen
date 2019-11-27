@@ -7,9 +7,8 @@ import cv2
 
 
 class Corpus:
-    
     def __init__(self):
-        self.load_cifar10('data/CIFAR10_data')
+        self.load_cifar10('D:\\PROJECTS\\DATA\\GitHub-Data\\CIFAR10_data\\')
         self._split_train_valid(valid_rate=0.9)
         self.n_train = self.train_images.shape[0]
         self.n_valid = self.valid_images.shape[0]
@@ -138,3 +137,6 @@ class Corpus:
             images[i,:,:,:] = new_image
         
         return images
+
+if __name__ == '__main__':
+    cifa_data = Corpus()
