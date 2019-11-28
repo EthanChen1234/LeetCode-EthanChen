@@ -9,10 +9,10 @@ import cv2
 class Corpus:
     def __init__(self):
         self.load_cifar10('D:\\PROJECTS\\DATA\\GitHub-Data\\CIFAR10_data\\')
-        self._split_train_valid(valid_rate=0.9)
-        self.n_train = self.train_images.shape[0]
-        self.n_valid = self.valid_images.shape[0]
-        self.n_test = self.test_images.shape[0]
+        # self._split_train_valid(valid_rate=0.9)
+        # self.n_train = self.train_images.shape[0]
+        # self.n_valid = self.valid_images.shape[0]
+        # self.n_test = self.test_images.shape[0]
         
     def _split_train_valid(self, valid_rate=0.9):
         images, labels = self.train_images, self.train_labels 
@@ -23,7 +23,8 @@ class Corpus:
     def load_cifar10(self, directory):
         # 读取训练集
         images, labels = [], []
-        for filename in ['%s/data_batch_%d' % (directory, j) for j in range(1, 6)]:
+        for filename in ['%sdata_batch_%d' % (directory, j) for j in range(1, 6)]:
+            print(filename)
             with open(filename, 'rb') as fo:
                 if 'Windows' in platform.platform():
                     cifar10 = pickle.load(fo, encoding='bytes')
