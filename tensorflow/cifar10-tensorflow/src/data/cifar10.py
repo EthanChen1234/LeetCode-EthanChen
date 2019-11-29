@@ -5,14 +5,15 @@ import random
 import platform
 import cv2
 
+# images, labels = [], [] 还是 array
 
 class Corpus:
     def __init__(self):
-        self.load_cifar10('D:\\PROJECTS\\DATA\\GitHub-Data\\CIFAR10_data\\')
-        # self._split_train_valid(valid_rate=0.9)
-        # self.n_train = self.train_images.shape[0]
-        # self.n_valid = self.valid_images.shape[0]
-        # self.n_test = self.test_images.shape[0]
+        self.load_cifar10('D:\\PROJECTS\\DATA\\GitHub-Data\\CIFAR10_data\\')  # 实例变量？？
+        self._split_train_valid(valid_rate=0.9)
+        self.n_train = self.train_images.shape[0]
+        self.n_valid = self.valid_images.shape[0]
+        self.n_test = self.test_images.shape[0]
         
     def _split_train_valid(self, valid_rate=0.9):
         images, labels = self.train_images, self.train_labels 
@@ -24,7 +25,6 @@ class Corpus:
         # 读取训练集
         images, labels = [], []
         for filename in ['%sdata_batch_%d' % (directory, j) for j in range(1, 6)]:
-            print(filename)
             with open(filename, 'rb') as fo:
                 if 'Windows' in platform.platform():
                     cifar10 = pickle.load(fo, encoding='bytes')
@@ -36,8 +36,8 @@ class Corpus:
                 image = image.astype(float)
                 images.append(image)
             labels += cifar10[b"labels"]
-        images = numpy.array(images, dtype='float')
-        labels = numpy.array(labels, dtype='int')
+        images = numpy.array(images, dtype='float')  # (50000, 32, 32, 3)
+        labels = numpy.array(labels, dtype='int')    # (50000)     大数据量，用array和list的区别
         self.train_images, self.train_labels = images, labels
         
         # 读取测试集
@@ -54,13 +54,12 @@ class Corpus:
                 image = image.astype(float)
                 images.append(image)
             labels += cifar10[b"labels"]
-        images = numpy.array(images, dtype='float')
-        labels = numpy.array(labels, dtype='int')
+        images = numpy.array(images, dtype='float')  # (10000, 32, 32, 3)
+        labels = numpy.array(labels, dtype='int')    # (10000)
         self.test_images, self.test_labels = images, labels
         
-    def data_augmentation(self, images, mode='train', flip=False, 
-        crop=False, crop_shape=(24,24,3), whiten=False, 
-        noise=False, noise_mean=0, noise_std=0.01):
+    def data_augmentation(self, images, mode='train', flip=False, crop=False, crop_shape=(24,24,3), whiten=False,
+                                        noise=False, noise_mean=0, noise_std=0.01):
         # 图像切割
         if crop:
             if mode == 'train':
@@ -131,13 +130,13 @@ class Corpus:
         for i in range(images.shape[0]):
             old_image = images[i,:,:,:]
             new_image = old_image
-            for i in range(image.shape[0]):
-                for j in range(image.shape[1]):
-                    for k in range(image.shape[2]):
+            for i in range(old_image.shape[0]):
+                for j in range(old_image.shape[1]):
+                    for k in range(old_image.shape[2]):
                         new_image[i, j, k] += random.gauss(mean, std)
             images[i,:,:,:] = new_image
         
         return images
 
-if __name__ == '__main__':
-    cifa_data = Corpus()
+# if __name__ == '__main__':
+#     cifa_data = Corpus()
