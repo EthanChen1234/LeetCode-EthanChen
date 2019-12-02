@@ -3,8 +3,8 @@
 import os
 from src.data.cifar10 import Corpus
 
-os.environ['CUDA_DEVICE_ORDER'] = 'PCI_BUS_ID'
-os.environ['CUDA_VISIBLE_DEVICES'] = '0'
+os.environ['CUDA_DEVICE_ORDER'] = 'PCI_BUS_ID'      # 按照PCI_BUS_ID顺序从0开始排列GPU设备
+os.environ['CUDA_VISIBLE_DEVICES'] = '0'  # '0,1'   # 设置当前使用的GPU设备仅为1号设备  设备名称为'/gpu:0'
 
 cifar10 = Corpus()
 
@@ -33,4 +33,4 @@ def resnet():
     # convnet.test(backup_path='backup/cifar10-v4/', epoch=0, batch_size=128)
 
 
-basic_cnn()
+# basic_cnn()
